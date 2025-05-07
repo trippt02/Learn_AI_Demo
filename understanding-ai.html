@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding AI Code Assistants - AI Training</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header><h1>AI-Powered Coding Mastery</h1></header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="understanding-ai.html" class="active">Understanding AI</a></li>
+            <li><a href="prompt-mastery.html">Prompt Mastery</a></li>
+            <li><a href="unit-testing-ai.html">Unit Testing</a></li>
+            <li><a href="pr-reviews-ai.html">PR Reviews</a></li>
+            <li><a href="documentation-ai.html">Documentation</a></li>
+            <li><a href="best-practices.html">Best Practices</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <h2>Module 1: What Are AI Code Assistants?</h2>
+        <p>AI code assistants, like GitHub Copilot, are tools powered by advanced <strong>Large Language Models (LLMs)</strong>. These models are trained on vast amounts of publicly available code and text.</p>
+        
+        <h3>How They Work (Simplified)</h3>
+        <p>Think of them as incredibly sophisticated auto-completion engines. When you write code or a comment (a "prompt"), the AI analyzes this context and predicts what you might want to write next. This could be a single line, a whole function, or even a block of documentation.</p>
+        <ul>
+            <li><strong>Context is Key:</strong> They consider your current file, related open files, and the specific instructions you provide.</li>
+            <li><strong>Pattern Recognition:</strong> They identify patterns from the code they were trained on to generate relevant suggestions.</li>
+            <li><strong>Not Magic:</strong> They don't "understand" code like humans do. They generate statistically probable sequences of tokens based on their training.</li>
+        </ul>
+
+        <div class="visual-aid">
+            <img src="images/ai-model-interaction.png" alt="AI Model Interaction Flow">
+            <p><em>Fig 1.1: Basic flow of information with an AI code assistant.</em></p>
+        </div>
+
+        <h3>Benefits in VS Code</h3>
+        <ul>
+            <li><strong>Speed & Efficiency:</strong> Reduce boilerplate coding, generate repetitive patterns quickly.</li>
+            <li><strong>Learning Tool:</strong> Discover new libraries, syntax, or approaches.</li>
+            <li><strong>Overcoming Blocks:</strong> Get suggestions when you're stuck or unsure how to start.</li>
+            <li><strong>Focus on Logic:</strong> Spend more time on problem-solving and less on mundane typing.</li>
+        </ul>
+
+        <h3>Limitations & Considerations</h3>
+        <ul>
+            <li><strong>Not Always Perfect:</strong> AI can generate incorrect, inefficient, or insecure code. Always review suggestions.</li>
+            <li><strong>Training Data Bias:</strong> Suggestions might reflect biases or outdated practices present in the training data.</li>
+            <li><strong>Context Window:</strong> The AI has a limited "memory" or context it can consider at one time.</li>
+            <li><strong>Security:</strong> Be cautious about what proprietary or sensitive information you include in prompts.</li>
+            <li><strong>Over-Reliance:</strong> Don't let it become a crutch; critical thinking and understanding remain paramount.</li>
+        </ul>
+
+        <div class="interactive-demo learning-quiz">
+            <h4>Test Your Knowledge: Myth vs. Fact</h4>
+            <form id="quizForm">
+                <p><strong>Statement 1:</strong> AI code assistants perfectly understand the intent behind my code.</p>
+                <label><input type="radio" name="q1" value="fact"> Fact</label>
+                <label><input type="radio" name="q1" value="myth"> Myth</label>
+                <div id="feedback-q1" class="feedback" style="display:none;"></div>
+
+                <p style="margin-top:15px;"><strong>Statement 2:</strong> AI code assistants can help me learn new programming techniques.</p>
+                <label><input type="radio" name="q2" value="fact"> Fact</label>
+                <label><input type="radio" name="q2" value="myth"> Myth</label>
+                <div id="feedback-q2" class="feedback" style="display:none;"></div>
+                <button type="button" onclick="checkQuiz()">Check Answers</button>
+            </form>
+        </div>
+        <p style="text-align:center; margin-top: 30px;">
+            <a href="prompt-mastery.html"><button>Next: Mastering Prompts</button></a>
+        </p>
+    </div>
+    <footer><p>&copy; <span id="currentYear"></span> AI Coding Trainer.</p></footer>
+    <script>document.getElementById('currentYear').textContent = new Date().getFullYear();</script>
+    <script src="js/main.js"></script>
+    <script src="js/interactive-demos.js"></script>
+    <script>
+        function checkQuiz() {
+            const answers = { q1: 'myth', q2: 'fact' };
+            const q1Answer = document.querySelector('input[name="q1"]:checked');
+            const q2Answer = document.querySelector('input[name="q2"]:checked');
+
+            const feedback_q1 = document.getElementById('feedback-q1');
+            if (q1Answer) {
+                feedback_q1.style.display = 'block';
+                if (q1Answer.value === answers.q1) {
+                    feedback_q1.textContent = 'Correct! AI assistants predict code based on patterns, they don\'t truly "understand" intent in a human sense.';
+                    feedback_q1.className = 'feedback correct';
+                } else {
+                    feedback_q1.textContent = 'Incorrect. While advanced, AI doesn\'t possess true understanding. It excels at pattern matching.';
+                    feedback_q1.className = 'feedback incorrect';
+                }
+            }
+
+            const feedback_q2 = document.getElementById('feedback-q2');
+            if (q2Answer) {
+                 feedback_q2.style.display = 'block';
+                if (q2Answer.value === answers.q2) {
+                    feedback_q2.textContent = 'Correct! By suggesting different ways to solve problems or use libraries, AI can be a great learning aid.';
+                    feedback_q2.className = 'feedback correct';
+                } else {
+                    feedback_q2.textContent = 'Incorrect. AI can indeed expose you to new syntax, libraries, and problem-solving approaches by showing you how it might solve a task.';
+                    feedback_q2.className = 'feedback incorrect';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI for Expert PR Reviews - AI Training</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header><h1>AI-Powered Coding Mastery</h1></header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="understanding-ai.html">Understanding AI</a></li>
+            <li><a href="prompt-mastery.html">Prompt Mastery</a></li>
+            <li><a href="unit-testing-ai.html">Unit Testing</a></li>
+            <li><a href="pr-reviews-ai.html" class="active">PR Reviews</a></li>
+            <li><a href="documentation-ai.html">Documentation</a></li>
+            <li><a href="best-practices.html">Best Practices</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <h2>Module 4: Leveraging AI for Insightful Pull Request (PR) Reviews</h2>
+        <p>Pull Request reviews are a cornerstone of quality software development. AI can act as a helpful assistant in this process, augmenting human review capabilities, but not replacing them.</p>
+
+        <h3>How AI Can Assist in PR Reviews</h3>
+        <p>With tools like GitHub Copilot for Pull Requests (or by using chat features with code diffs), AI can:</p>
+        <ul>
+            <li><strong>Summarize Changes:</strong> Quickly provide a high-level overview of what the PR does.</li>
+            <li><strong>Identify Potential Issues:</strong> Flag potential bugs, performance concerns, or deviations from common practices. (Always verify these!)</li>
+            <li><strong>Suggest Improvements:</strong> Offer alternative implementations or simplifications.</li>
+            <li><strong>Check for Missing Documentation or Tests:</strong> Highlight areas that might need more attention.</li>
+            <li><strong>Explain Complex Code Sections:</strong> If a part of the diff is hard to understand, you can ask the AI to explain it.</li>
+        </ul>
+        <p><strong>Important:</strong> AI is a tool to aid the human reviewer. Critical thinking and domain expertise are still essential. AI suggestions should be treated as hints or starting points for deeper investigation.</p>
+
+        <h3>Example Prompts for PR Review Assistance</h3>
+        <p>Imagine you have a code diff. You could use Copilot Chat or a similar AI interface with prompts like:</p>
+        <ul>
+            <li>"Summarize the changes in this PR."</li>
+            <li>"Are there any potential bugs or edge cases missed in this diff related to user authentication?" (Be specific about concerns)</li>
+            <li>"Can this Python function be optimized for performance?" (Highlight a specific function from the diff)</li>
+            <li>"Does this PR adequately address issue #123 regarding X feature?"</li>
+            <li>"Explain this block of code (paste the block) and suggest improvements for readability."</li>
+            <li>"Are there any security vulnerabilities introduced in these changes?" (Use with caution and supplement with dedicated security tools).</li>
+        </ul>
+
+        <div class="interactive-demo">
+            <h4>Interactive PR Review Simulation</h4>
+            <p>Below is a small (simplified) code diff. Use the buttons to ask a simulated AI for different types of review feedback.</p>
+            <p><em>Code Diff (Python):</em></p>
+            <pre>
+--- a/user_service.py
++++ b/user_service.py
+@@ -5,7 +5,10 @@
+ class UserService:
+     def get_user_details(self, user_id):
+         # Simulating a database call
+-        if user_id == 1:
+-            return {"id": 1, "name": "Alice", "email": "alice@example.com"}
+-        return None
++        if not isinstance(user_id, int) or user_id <= 0:
++            # Added input validation
++            raise ValueError("User ID must be a positive integer")
++        
++        # Placeholder for actual database lookup
++        # For now, returns a static user or None
++        users = {1: {"id": 1, "name": "Alice", "email": "alice@example.com"}}
++        return users.get(user_id)
+            </pre>
+            <button onclick="getPRSummary()">AI: Summarize Changes</button>
+            <button onclick="getPotentialIssues()">AI: Identify Potential Issues</button>
+            <button onclick="getStyleSuggestions()">AI: Suggest Improvements</button>
+            <div id="prReviewOutput" style="margin-top:15px; padding: 10px; border: 1px solid #eee; background: #f9f9f9; border-radius: 4px;">
+                <p><em>AI review feedback will appear here...</em></p>
+            </div>
+        </div>
+        <p style="text-align:center; margin-top: 30px;">
+            <a href="documentation-ai.html"><button>Next: Generating Clear Documentation</button></a>
+        </p>
+    </div>
+    <footer><p>&copy; <span id="currentYear"></span> AI Coding Trainer.</p></footer>
+    <script>document.getElementById('currentYear').textContent = new Date().getFullYear();</script>
+    <script src="js/main.js"></script>
+    <script src="js/interactive-demos.js"></script>
+    <script>
+        const prOutputDiv = document.getElementById('prReviewOutput');
+
+        function getPRSummary() {
+            prOutputDiv.innerHTML = `<p><strong>AI Summary:</strong></p>
+            <p>The changes in <code>user_service.py</code> introduce input validation for the <code>user_id</code> parameter in the <code>get_user_details</code> method. It now checks if <code>user_id</code> is a positive integer and raises a ValueError if not. The method of retrieving user data has also been slightly refactored to use a dictionary's <code>get</code> method, which is a common pattern.</p>`;
+        }
+
+        function getPotentialIssues() {
+            prOutputDiv.innerHTML = `<p><strong>AI Potential Issues:</strong></p>
+            <ul>
+                <li>The current implementation still uses a hardcoded dictionary for users. While this might be for simplification, in a real scenario, this should connect to a database. The comment "# Placeholder for actual database lookup" acknowledges this.</li>
+                <li>Consider if <code>ValueError</code> is the most appropriate exception type, or if a custom application-specific exception would be better for more granular error handling upstream.</li>
+                <li>No explicit test cases seem to be added for the new validation logic in this diff snippet.</li>
+            </ul>`;
+        }
+
+        function getStyleSuggestions() {
+            prOutputDiv.innerHTML = `<p><strong>AI Improvement Suggestions:</strong></p>
+            <ul>
+                <li>The code is generally clean. The use of <code>users.get(user_id)</code> is good as it gracefully handles cases where the ID might not exist by returning <code>None</code>.</li>
+                <li>For the static user data, consider defining it as a constant at the module level if it's truly static for testing or default purposes, e.g., <code>_DEFAULT_USERS = {...}</code>.</li>
+                <li>Ensure comprehensive docstrings are present for the method explaining its behavior, parameters, return values, and exceptions raised.</li>
+            </ul>`;
+        }
+    </script>
+</body>
+</html>

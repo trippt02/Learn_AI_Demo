@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mastering Prompts - AI Training</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header><h1>AI-Powered Coding Mastery</h1></header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="understanding-ai.html">Understanding AI</a></li>
+            <li><a href="prompt-mastery.html" class="active">Prompt Mastery</a></li>
+            <li><a href="unit-testing-ai.html">Unit Testing</a></li>
+            <li><a href="pr-reviews-ai.html">PR Reviews</a></li>
+            <li><a href="documentation-ai.html">Documentation</a></li>
+            <li><a href="best-practices.html">Best Practices</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <h2>Module 2: Crafting Effective Prompts for Code Generation</h2>
+        <p>The quality of the code an AI assistant generates is directly proportional to the quality of your prompt. "Garbage in, garbage out" applies here. Let's learn how to talk to your AI coding partner.</p>
+
+        <h3>Principles of Effective Prompting</h3>
+        <ol>
+            <li><strong>Be Specific and Clear:</strong> Vague prompts lead to vague or irrelevant code. Clearly state what you want the code to do.</li>
+            <li><strong>Provide Context:</strong>
+                <ul>
+                    <li>Mention the language, framework, or library (e.g., "JavaScript function using Express.js", "Python class for Django model").</li>
+                    <li>Include existing relevant code snippets or function signatures. Copilot often uses your open tabs for context, but explicit mentions help.</li>
+                    <li>Describe desired inputs, outputs, and any constraints.</li>
+                </ul>
+            </li>
+            <li><strong>Use Action Verbs:</strong> Start with "Create," "Generate," "Write," "Implement," "Refactor," "Explain."</li>
+            <li><strong>Break Down Complex Tasks:</strong> For larger features, prompt for smaller, manageable pieces of code.</li>
+            <li><strong>Iterate and Refine:</strong> Your first prompt might not yield the perfect result. Rephrase, add details, or ask for alternatives. Copilot (in VS Code) often offers multiple suggestions (Ctrl+Enter or Alt+]).</li>
+            <li><strong>Use Comments Effectively:</strong> Well-written comments can serve as excellent prompts.
+                <pre>// Function to fetch user data by ID from /api/users/:id
+// Handle potential errors and return JSON response
+async function getUserById(userId) {
+    // Copilot will attempt to fill this based on the comments
+}</pre>
+            </li>
+        </ol>
+
+        <h3>Good vs. Bad Prompts</h3>
+        <p><strong>Scenario:</strong> You need a Python function to calculate the factorial of a number.</p>
+        
+        <p><strong>Bad Prompt (in a comment or chat):</strong></p>
+        <code># factorial</code>
+        <p><em>(Too vague. Copilot might guess, but it could be for any language, or iterative/recursive, or handle edge cases poorly.)</em></p>
+
+        <p><strong>Good Prompt (in a comment before an empty function definition):</strong></p>
+        <pre>
+# Python function to calculate factorial of n
+# Should be recursive
+# Handle negative inputs by raising a ValueError
+# Handle n=0 (factorial is 1)
+def calculate_factorial_recursive(n):
+    # AI will generate code here
+        </pre>
+        <p><em>(Specific language, desired algorithm, edge case handling are all mentioned.)</em></p>
+
+        <div class="interactive-demo">
+            <h4>Interactive Prompt Simulator</h4>
+            <p>Type a prompt below to see how an AI might interpret it. This is a simplified simulation.</p>
+            <textarea id="promptInput" rows="3" placeholder="Example: // JavaScript function to validate an email address using regex"></textarea>
+            <button onclick="submitPrompt()">Generate Code (Simulated)</button>
+            <div id="simulatedOutput" style="margin-top:15px;">
+                <p><em>AI suggestion will appear here...</em></p>
+            </div>
+        </div>
+        <p style="text-align:center; margin-top: 30px;">
+            <a href="unit-testing-ai.html"><button>Next: AI-Powered Unit Testing</button></a>
+        </p>
+    </div>
+    <footer><p>&copy; <span id="currentYear"></span> AI Coding Trainer.</p></footer>
+    <script>document.getElementById('currentYear').textContent = new Date().getFullYear();</script>
+    <script src="js/main.js"></script>
+    <script src="js/interactive-demos.js"></script>
+    <script>
+        const predefinedPromptResponses = {
+            "javascript function to validate an email address using regex": `function isValidEmail(email) {\n  const regex = /^(([^<>()[\\]\\\\.,;:\\s@"]+(\\.[^<>()[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/;\n  return regex.test(String(email).toLowerCase());\n}\n// Usage: console.log(isValidEmail("test@example.com"));`,
+            "python class for a simple todo item": `class TodoItem:\n    def __init__(self, task_id, description, completed=False):\n        self.task_id = task_id\n        self.description = description\n        self.completed = completed\n\n    def mark_complete(self):\n        self.completed = True\n\n    def __str__(self):\n        status = "Done" if self.completed else "Pending"\n        return f"[{self.task_id}] {self.description} - {status}"\n\n# item = TodoItem(1, "Buy milk")\n# print(item)`,
+            "sort an array": `// Please specify the language and sorting algorithm for a better suggestion.\n// Example for JavaScript, simple sort:\nconst numbers = [4, 2, 5, 1, 3];\nnumbers.sort((a, b) => a - b);\nconsole.log(numbers); // [1, 2, 3, 4, 5]`,
+            "default": "AI: Your prompt is a bit general. Try adding more specifics like programming language, desired inputs/outputs, or specific libraries to use for a more targeted suggestion."
+        };
+
+        function submitPrompt() {
+            const promptText = document.getElementById('promptInput').value;
+            const outputDiv = document.getElementById('simulatedOutput');
+            
+            let response = "AI: Thinking...";
+            outputDiv.innerHTML = `<p><em>${response}</em></p>`;
+
+            setTimeout(() => {
+                let matchedResponse = predefinedPromptResponses.default;
+                for (const keyword in predefinedPromptResponses) {
+                    if (promptText.toLowerCase().includes(keyword) && keyword !== 'default') {
+                        matchedResponse = predefinedPromptResponses[keyword];
+                        break;
+                    }
+                }
+                // Simulating code block formatting
+                outputDiv.innerHTML = `<pre><code>${matchedResponse.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</code></pre>`;
+            }, 1200);
+        }
+    </script>
+</body>
+</html>

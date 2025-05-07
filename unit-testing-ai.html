@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Unit Testing - AI Training</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header><h1>AI-Powered Coding Mastery</h1></header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="understanding-ai.html">Understanding AI</a></li>
+            <li><a href="prompt-mastery.html">Prompt Mastery</a></li>
+            <li><a href="unit-testing-ai.html" class="active">Unit Testing</a></li>
+            <li><a href="pr-reviews-ai.html">PR Reviews</a></li>
+            <li><a href="documentation-ai.html">Documentation</a></li>
+            <li><a href="best-practices.html">Best Practices</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <h2>Module 3: Generating Effective Unit Tests with AI</h2>
+        <p>Unit testing is crucial for robust software. AI assistants can significantly speed up the process of writing unit tests, allowing you to achieve better coverage more quickly.</p>
+
+        <h3>How AI Helps with Unit Tests</h3>
+        <ul>
+            <li><strong>Boilerplate Reduction:</strong> Generates the basic structure of test files and test cases (e.g., `describe`, `it` blocks in Jest/Mocha).</li>
+            <li><strong>Test Case Suggestion:</strong> Can suggest tests for happy paths, edge cases, and error conditions based on the function's code or your description.</li>
+            <li><strong>Mocking Assistance:</strong> Can help generate mocks for dependencies.</li>
+        </ul>
+
+        <div class="visual-aid">
+             <img src="images/tdd-flowchart-ai.png" alt="AI-Assisted Test-Driven Development">
+             <p><em>Fig 3.1: AI can assist at multiple stages of a TDD-like workflow.</em></p>
+        </div>
+
+        <h3>Prompts for Generating Unit Tests</h3>
+        <p>When prompting for unit tests, provide the code you want to test. You can do this by:</p>
+        <ul>
+            <li>Having the function in the same file (Copilot often picks this up automatically).</li>
+            <li>Pasting the function into a comment within your test file.</li>
+            <li>Using the AI chat feature (if available in your VS Code Copilot version) and pasting the code there.</li>
+        </ul>
+
+        <p><strong>Example: JavaScript function and a prompt for Jest tests</strong></p>
+        <p><em>Your function:</em></p>
+        <pre>
+// utils.js
+export function calculateDiscount(price, percentage) {
+    if (typeof price !== 'number' || typeof percentage !== 'number') {
+        throw new Error('Inputs must be numbers.');
+    }
+    if (percentage < 0 || percentage > 100) {
+        throw new Error('Percentage must be between 0 and 100.');
+    }
+    return price * (percentage / 100);
+}
+        </pre>
+
+        <p><em>Your prompt (e.g., in a `utils.test.js` file or chat):</em></p>
+        <pre>
+// Write Jest unit tests for the calculateDiscount function from utils.js.
+// Include tests for:
+// 1. Valid inputs (happy path).
+// 2. Edge case: 0% discount.
+// 3. Edge case: 100% discount.
+// 4. Invalid input types (e.g., strings instead of numbers).
+// 5. Percentage out of bounds (e.g., -10% or 110%).
+        </pre>
+        <p>Copilot would then suggest test cases based on this prompt.</p>
+
+        <div class="interactive-demo">
+            <h4>Interactive Test Case Prompter</h4>
+            <p>Below is a simple Python function. Try writing a prompt in the textarea to ask an AI to generate PyTest unit tests. Then click "Show AI Suggestion" to see a possible AI output.</p>
+            <p><em>Function to test:</em></p>
+            <pre>
+# string_utils.py
+def reverse_string(s):
+    if not isinstance(s, str):
+        raise TypeError("Input must be a string")
+    return s[::-1]
+            </pre>
+            <textarea id="testPromptInput" rows="4" placeholder="// Write PyTest tests for reverse_string. Test with: empty string, single char, palindrome, non-string input."></textarea>
+            <button onclick="generateTestSuggestion()">Show AI Test Suggestion</button>
+            <div id="simulatedTestOutput" style="margin-top:15px;">
+                <p><em>AI-suggested tests will appear here...</em></p>
+            </div>
+        </div>
+        <p style="text-align:center; margin-top: 30px;">
+            <a href="pr-reviews-ai.html"><button>Next: AI for Expert PR Reviews</button></a>
+        </p>
+    </div>
+    <footer><p>&copy; <span id="currentYear"></span> AI Coding Trainer.</p></footer>
+    <script>document.getElementById('currentYear').textContent = new Date().getFullYear();</script>
+    <script src="js/main.js"></script>
+    <script src="js/interactive-demos.js"></script>
+    <script>
+        function generateTestSuggestion() {
+            const promptText = document.getElementById('testPromptInput').value.toLowerCase();
+            const outputDiv = document.getElementById('simulatedTestOutput');
+            let suggestedTest = `AI: Thinking about tests...`;
+            outputDiv.innerHTML = `<p><em>${suggestedTest}</em></p>`;
+
+            // Simplified logic based on prompt keywords
+            let tests = `# test_string_utils.py\nimport pytest\nfrom string_utils import reverse_string, TypeError\n\n`;
+            if (promptText.includes("empty string")) {
+                tests += `def test_reverse_empty_string():\n    assert reverse_string("") == ""\n\n`;
+            }
+            if (promptText.includes("single char")) {
+                tests += `def test_reverse_single_char_string():\n    assert reverse_string("a") == "a"\n\n`;
+            }
+            if (promptText.includes("palindrome")) {
+                tests += `def test_reverse_palindrome():\n    assert reverse_string("madam") == "madam"\n\n`;
+            }
+             if (promptText.includes("normal string") || promptText.trim() === "" || promptText.includes("reverse_string")) { // Default case
+                tests += `def test_reverse_normal_string():\n    assert reverse_string("hello") == "olleh"\n\n`;
+            }
+            if (promptText.includes("non-string") || promptText.includes("typeerror")) {
+                tests += `def test_reverse_non_string_input():\n    with pytest.raises(TypeError):\n        reverse_string(123)\n\n`;
+            }
+            if (tests.split('\n').length < 5) { // If not many specific cases were hit
+                 tests = `# test_string_utils.py
+import pytest
+from string_utils import reverse_string, TypeError
+
+def test_reverse_empty_string():
+    assert reverse_string("") == ""
+
+def test_reverse_normal_string():
+    assert reverse_string("hello") == "olleh"
+
+def test_reverse_palindrome():
+    assert reverse_string("madam") == "madam"
+
+def test_reverse_non_string_input():
+    with pytest.raises(TypeError):\n        reverse_string(123)
+
+# Consider adding tests for strings with spaces, special characters etc.`;
+            }
+
+
+            setTimeout(() => {
+                 outputDiv.innerHTML = `<pre><code>${tests.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</code></pre>`;
+            }, 1200);
+        }
+    </script>
+</body>
+</html>
