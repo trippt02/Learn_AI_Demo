@@ -22,7 +22,7 @@ This project is an interactive learning platform designed to teach developers ho
 ### Setup
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo/learn-ai-demo.git
+   git clone https://github.com/learn-ai-demo.git
    cd learn-ai-demo
    ```
 2. Open the project in your code editor or directly in your browser:
