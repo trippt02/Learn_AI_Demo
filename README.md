@@ -15,9 +15,6 @@ This project is an interactive learning platform designed to teach developers ho
 
 ### Prerequisites
 - A modern web browser (e.g., Chrome, Firefox, Edge).
-- A local web server (optional, but recommended for better performance). You can use tools like:
-  - [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) extension for VS Code.
-  - Python's built-in HTTP server: `python -m http.server`.
 
 ### Setup
 1. Clone the repository:
