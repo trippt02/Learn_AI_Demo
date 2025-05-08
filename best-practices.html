@@ -59,12 +59,113 @@
 
         <div style="text-align:center; margin-top: 30px; padding: 20px; background-color: var(--secondary-color); border-radius: 8px;">
             <h4>Ready to apply your knowledge?</h4>
-            <p>Open VS Code, start a new project or an existing one, and begin experimenting with AI-assisted coding today!</p>
+            <p>Test your knowledge in the quiz below! Then open VS Code, start a new project or an existing one, and begin experimenting with AI-assisted coding today!</p>
             <a href="index.html"><button class="button-secondary">Back to Homepage</button></a>
+        </div>
+
+        <div style="margin-top: 40px;">
+            <h3>Test Your Knowledge</h3>
+            <p>Take this short quiz to review what you've learned across the modules:</p>
+            <form id="quiz-form">
+                <ol>
+                    <li>
+                        <p><strong>1. What is the primary role of AI in coding?</strong></p>
+                        <label><input type="radio" name="q1" value="a"> To completely replace human developers.</label><br>
+                        <label><input type="radio" name="q1" value="b"> To assist developers by providing suggestions and automating repetitive tasks.</label><br>
+                        <label><input type="radio" name="q1" value="c"> To write perfect code without any human intervention.</label>
+                        <div id="feedback-q1" class="feedback" style="display:none;"></div>
+                    </li>
+                    <li>
+                        <p><strong>2. Why is it important to provide sufficient context to AI tools?</strong></p>
+                        <label><input type="radio" name="q2" value="a"> To ensure the AI generates accurate and relevant suggestions.</label><br>
+                        <label><input type="radio" name="q2" value="b"> To make the AI work faster.</label><br>
+                        <label><input type="radio" name="q2" value="c"> To prevent the AI from making mistakes.</label>
+                        <div id="feedback-q2" class="feedback" style="display:none;"></div>
+                    </li>
+                    <li>
+                        <p><strong>3. What should you avoid pasting into AI tools?</strong></p>
+                        <label><input type="radio" name="q3" value="a"> Publicly available code.</label><br>
+                        <label><input type="radio" name="q3" value="b"> Proprietary algorithms, secret keys, or sensitive data.</label><br>
+                        <label><input type="radio" name="q3" value="c"> Comments and documentation.</label>
+                        <div id="feedback-q3" class="feedback" style="display:none;"></div>
+                    </li>
+                    <li>
+                        <p><strong>4. How can AI help with debugging?</strong></p>
+                        <label><input type="radio" name="q4" value="a"> By identifying bugs and suggesting fixes.</label><br>
+                        <label><input type="radio" name="q4" value="b"> By automatically rewriting the entire codebase.</label><br>
+                        <label><input type="radio" name="q4" value="c"> By replacing the need for human debugging entirely.</label>
+                        <div id="feedback-q4" class="feedback" style="display:none;"></div>
+                    </li>
+                    <li>
+                        <p><strong>5. What is a key strategy for effective AI collaboration?</strong></p>
+                        <label><input type="radio" name="q5" value="a"> Letting the AI handle all decision-making.</label><br>
+                        <label><input type="radio" name="q5" value="b"> Combining AI suggestions with human expertise and critical evaluation.</label><br>
+                        <label><input type="radio" name="q5" value="c"> Using AI only for simple tasks.</label>
+                        <div id="feedback-q5" class="feedback" style="display:none;"></div>
+                    </li>
+                </ol>
+                <button type="button" onclick="checkQuiz()">Submit</button>
+            </form>
+            <div id="quiz-result" style="margin-top: 20px; font-weight: bold;"></div>
         </div>
     </div>
     <footer><p>&copy; <span id="currentYear"></span> AI Coding Trainer.</p></footer>
     <script>document.getElementById('currentYear').textContent = new Date().getFullYear();</script>
     <script src="js/main.js"></script>
+    <script>
+        function checkQuiz() {
+            const answers = {
+                q1: 'b',
+                q2: 'a',
+                q3: 'b',
+                q4: 'a',
+                q5: 'b'
+            };
+
+            const feedbackMessages = {
+                q1: {
+                    correct: 'Correct! AI assists developers by providing suggestions and automating repetitive tasks, but it doesn’t replace them.',
+                    incorrect: 'Incorrect. AI is a tool to assist developers, not to replace them or write perfect code independently.'
+                },
+                q2: {
+                    correct: 'Correct! Providing sufficient context helps the AI generate more accurate and relevant suggestions.',
+                    incorrect: 'Incorrect. Without sufficient context, the AI may generate less accurate or irrelevant suggestions.'
+                },
+                q3: {
+                    correct: 'Correct! Avoid pasting proprietary algorithms, secret keys, or sensitive data into AI tools to ensure security.',
+                    incorrect: 'Incorrect. Sensitive data like proprietary algorithms or secret keys should not be shared with AI tools.'
+                },
+                q4: {
+                    correct: 'Correct! AI can help identify bugs and suggest fixes, but it doesn’t replace human debugging entirely.',
+                    incorrect: 'Incorrect. AI assists in debugging by identifying bugs and suggesting fixes, but it doesn’t rewrite the entire codebase.'
+                },
+                q5: {
+                    correct: 'Correct! Effective AI collaboration involves combining AI suggestions with human expertise and critical evaluation.',
+                    incorrect: 'Incorrect. AI is most effective when used alongside human expertise, not as a sole decision-maker.'
+                }
+            };
+
+            let score = 0;
+
+            for (const [question, correctAnswer] of Object.entries(answers)) {
+                const userAnswer = document.querySelector(`input[name="${question}"]:checked`);
+                const feedbackDiv = document.getElementById(`feedback-${question}`);
+                if (userAnswer) {
+                    feedbackDiv.style.display = 'block';
+                    if (userAnswer.value === correctAnswer) {
+                        feedbackDiv.textContent = feedbackMessages[question].correct;
+                        feedbackDiv.className = 'feedback correct';
+                        score++;
+                    } else {
+                        feedbackDiv.textContent = feedbackMessages[question].incorrect;
+                        feedbackDiv.className = 'feedback incorrect';
+                    }
+                }
+            }
+
+            const resultDiv = document.getElementById('quiz-result');
+            resultDiv.textContent = `You scored ${score} out of ${Object.keys(answers).length}.`;
+        }
+    </script>
 </body>
 </html>
